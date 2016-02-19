@@ -1,0 +1,6 @@
+## Allow only from github and me
+Order deny,allow
+Deny from all
+Allow from localhost
+Allow from 192.30.252.0/22
+Allow from 2620:112:3000::/44

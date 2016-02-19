@@ -131,18 +131,14 @@ module.exports = function(grunt) {
 			},
 		},
 		css: {
-			files: ['**/*.css', '*.css', ],
+			files: ['**/*.css', '*.css','!node_modules/**/*', 'bower_components/**/*'],
 			tasks: [],
 			options: {
 				livereload: true
 			}
 		},
-		vendor: {
-			files: ['node_modules/**/*'],
-			task: ['copy']
-		},
 		livereload: {
-			files: ['js/*.min.js', '**/*.php', '**/*.html'], // Watch all files
+			files: ['js/*.min.js', '**/*.php', '**/*.html', '!node_modules/**/*', 'bower_components/**/*'], // Watch all files
 			options: {
 				livereload: true
 			}
