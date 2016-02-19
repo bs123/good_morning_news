@@ -1,0 +1,28 @@
+# Ignore EVERYTHING by default, we're adding everything back by hand
+/*
+!.git*
+
+#Nothing in the wp-content folder
+/wp-content/
+
+# Put back the landing Page
+!/landing/
+
+# Put back in what we actually want
+!/gitpull/
+
+# Themes
+!/wp-content/themes/
+/wp-content/themes/*
+!/wp-content/themes/goodmorning_theme
+
+# Plugins
+*.zip
+!/wp-content/plugins/
+/wp-content/plugins/*
+
+# NEVER ship node or bower modules and systems files
+node_modules
+bower_components
+.DS_Store
+*.log

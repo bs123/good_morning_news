@@ -3,16 +3,16 @@ jswiremocklib = require('jswiremock'), jswiremock = jswiremocklib.jswiremock, st
  
 var jswiremock = new jswiremock(5001); //port 
  
-stubFor(jswiremock, get(urlEqualTo("/account/:varying_var/delete/"))
+stubFor(jswiremock, get(urlEqualTo("/news/:varying_var/rateUp/"))
     .willReturn(a_response()
         .withStatus(200)
         .withHeader({"Content-Type": "application/json"})
         .withBody("[{\"status\":\"success\"}]")));
-        
-stubFor(jswiremock, post(urlEqualTo("/login"), {username: "captainkirk", password: "enterprise"})
+
+/*stubFor(jswiremock, post(urlEqualTo("/login"), {username: "flo", password: "geheim"})
     .willReturn(a_response()
         .withStatus(200)
         .withHeader({})
         .withBody("")));
- 
-jswiremock.stopJswiremock();
+*/
+//jswiremock.stopJswiremock();
