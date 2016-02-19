@@ -1,0 +1,17 @@
+{
+  "name": "rest_mock",
+  "version": "1.0.0",
+  "description": "mocks br24 news backend for FE developer",
+  "main": "index.js",
+  "dependencies": {
+    "jswiremock": "^0.3.2"
+  },
+  "devDependencies": {
+    "jswiremock": "^0.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bs123",
+  "license": "ISC"
+}
