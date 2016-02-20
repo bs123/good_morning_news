@@ -10,7 +10,7 @@ $(document).ready(function () {
             xhr.setRequestHeader('X-WP-Nonce', WP_API_Settings.nonce);
         },
     }).done(function (response) {
-       // console.log(response);
+        // console.log(response);
         insert_posts(response);
 
         $(".article").click(function () {
@@ -23,7 +23,6 @@ $(document).ready(function () {
             $content.removeClass("hidden").addClass("shown");
         });
     });
-
 });
 
 $(document).ready(function () {
@@ -35,6 +34,18 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $("#rate_up").click(function () {
+        $.ajax({
+            url: WP_API_Settings.root + 'goodmorning-news/1.0/upvote/7970',
+            method: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-WP-Nonce', WP_API_Settings.nonce);
+            },
+        }).done(function (response) {
+            console.log(response);
+            //  console.log($(".article"));
+        });
+    });
 });
 
 $(document).ready(function () {
@@ -42,22 +53,20 @@ $(document).ready(function () {
         $("#post-" + (postindex)).addClass("hidden").removeClass("shown");
         postindex++;
         $("#post-" + postindex).removeClass("hidden").addClass("shown");
-        // $("#post-1").toggle();
-        console.log($(".article"));
+        //console.log($(".article"));
     });
 
     $("#b_last").click(function () {
         $("#post-" + (postindex)).addClass("hidden").removeClass("shown");
-        // $("#post-1").toggle();
         postindex--;
         $("#post-" + postindex).removeClass("hidden").addClass("shown");
-        console.log($(".article"));
+        //console.log($(".article"));
     });
 });
 
 
 function insert_posts(posts) {
-  //  console.log('+++++++++' + typeof (posts));
+    //  console.log('+++++++++' + typeof (posts));
     var duration = 0;
     if (typeof (posts) == "object") {
         for (var i in posts) {
