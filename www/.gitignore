@@ -20,6 +20,7 @@
 *.zip
 !/wp-content/plugins/
 /wp-content/plugins/*
+!/wp-content/plugins/goodmorning_plugin
 
 # NEVER ship node or bower modules and systems files
 node_modules

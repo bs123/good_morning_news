@@ -1,0 +1,148 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Free Artworks Plugin Server\n"
+"POT-Creation-Date: 2015-07-13 16:58+0200\n"
+"PO-Revision-Date: 2015-07-13 16:58+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: fap_server.php\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: inc/fapsrv.admin.php:71
+msgid "Image"
+msgstr ""
+
+#: inc/fapsrv.admin.php:75
+msgid "<i class=\"fa fa-facebook \"></i> Meta Information"
+msgstr ""
+
+#: inc/fapsrv.api.php:81
+msgid "Invalid post ID."
+msgstr ""
+
+#: inc/fapsrv.api.php:87
+msgid "Invalid post type"
+msgstr ""
+
+#: inc/fapsrv.api.php:91
+msgid "Sorry, you cannot read this post."
+msgstr ""
+
+#: inc/fapsrv.core.php:48
+msgctxt "post type general name"
+msgid "Images"
+msgstr ""
+
+#: inc/fapsrv.core.php:49
+msgctxt "post type singular name"
+msgid "Image"
+msgstr ""
+
+#: inc/fapsrv.core.php:50
+msgctxt "admin menu"
+msgid "Images"
+msgstr ""
+
+#: inc/fapsrv.core.php:51
+msgctxt "add new on admin bar"
+msgid "Image"
+msgstr ""
+
+#: inc/fapsrv.core.php:52
+msgctxt "beer garden"
+msgid "Add New"
+msgstr ""
+
+#: inc/fapsrv.core.php:53
+msgid "Add New Image"
+msgstr ""
+
+#: inc/fapsrv.core.php:54
+msgid "New Image"
+msgstr ""
+
+#: inc/fapsrv.core.php:55
+msgid "Edit Image"
+msgstr ""
+
+#: inc/fapsrv.core.php:56
+msgid "View Image"
+msgstr ""
+
+#: inc/fapsrv.core.php:57
+msgid "All Images"
+msgstr ""
+
+#: inc/fapsrv.core.php:58
+msgid "Search Image"
+msgstr ""
+
+#: inc/fapsrv.core.php:59
+msgid "Parent Images:"
+msgstr ""
+
+#: inc/fapsrv.core.php:60
+msgid "No Images found."
+msgstr ""
+
+#: inc/fapsrv.core.php:61
+msgid "No Images found in Trash."
+msgstr ""
+
+#: inc/fapsrv.metaboxes.php:19
+msgid "Source URL"
+msgstr ""
+
+#: inc/fapsrv.metaboxes.php:20
+msgid "e.g. http://www.unsplash.com"
+msgstr ""
+
+#: inc/fapsrv.metaboxes.php:23 inc/fapsrv.metaboxes.php:32
+msgid "Source Name"
+msgstr ""
+
+#: inc/fapsrv.metaboxes.php:24
+msgid "e.g. Unsplash"
+msgstr ""
+
+#: inc/fapsrv.metaboxes.php:28
+msgid "Author URL"
+msgstr ""
+
+#: inc/fapsrv.metaboxes.php:29
+msgid "e.g. http://www.luehrsen-heinrich.de"
+msgstr ""
+
+#: inc/fapsrv.metaboxes.php:33
+msgid "e.g. Hendrik Luehrsen"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Free Artworks Plugin Server"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://www.luehrsen-heinrich.de"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"The plugin that provides server and api infrastructure for the client plugin."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Hendrik Luehrsen"
+msgstr ""

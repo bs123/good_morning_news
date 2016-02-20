@@ -1,0 +1,57 @@
+#adminmenu {
+	li#menu-posts-hero {
+		a.menu-icon-hero {
+			div.wp-menu-image {
+				.fa();
+				background: transparent;
+				font-size: 1.3em;
+			}
+
+			div.wp-menu-image:before {
+				font: inherit !important;
+				color: #999;
+				content: @fa-var-user;
+			}
+		}
+
+		a.menu-icon-hero:hover {
+			div.wp-menu-image:before {
+				color: #19a1aa;
+			}
+		}
+
+		a.wp-menu-open {
+			div.wp-menu-image:before {
+				color: #fff !important;
+			}
+		}
+	}
+
+	li#menu-posts-game {
+		a.menu-icon-game {
+			div.wp-menu-image {
+				.fa();
+				background: transparent;
+				font-size: 1.3em;
+			}
+
+			div.wp-menu-image:before {
+				font: inherit !important;
+				color: #999;
+				content: @fa-var-gamepad;
+			}
+		}
+
+		a.menu-icon-game:hover {
+			div.wp-menu-image:before {
+				color: #19a1aa;
+			}
+		}
+
+		a.wp-menu-open {
+			div.wp-menu-image:before {
+				color: #fff !important;
+			}
+		}
+	}
+}
