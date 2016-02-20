@@ -2,7 +2,7 @@
 	$user_info = get_userdata( get_current_user_id() );
 
 	if(is_user_logged_in()){
-		$name = $user_info->user_nicename;
+		$name = $user_info->display_name;
 	} else {
 		$name = "Nachrichten";
 	}
