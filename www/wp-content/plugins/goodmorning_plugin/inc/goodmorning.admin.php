@@ -55,12 +55,14 @@ class GOODMORNING_ADMIN extends GOODMORNING_CORE {
 		global $pagenow, $post_type, $hook_suffix;
 		$screen = get_current_screen();
 
-		wp_register_script( 'mimimi_admin', MIMIMI__PLUGIN_URL . 'js/admin.min.js', array("jquery", "jquery-ui-sortable"), NULL, true);
+		wp_register_script( 'mimimi_admin', GM__PLUGIN_URL . 'js/admin.min.js', array("jquery", "jquery-ui-sortable"), NULL, true);
 
-		if( (($pagenow === "post.php" || $pagenow === "post-new.php") && ($post_type === "game" || $post_type === "hero"))){
+		if( (($pagenow === "post.php" || $pagenow === "post-new.php") && ($post_type === "br24_news"))){
 
 			// Only load the scripts when we ACTUALLY need them.
 			wp_enqueue_script( 'mimimi_admin' );
+			wp_localize_script( 'mimimi_admin', 'WP_API_Settings', array( 'root' => esc_url_raw( rest_url() ), 'nonce' => wp_create_nonce( 'wp_rest' ) ) );
+
 		}
 
 		$scripts_are_needed_in = array(
@@ -72,12 +74,12 @@ class GOODMORNING_ADMIN extends GOODMORNING_CORE {
    			wp_enqueue_media();
         }
 
-		wp_register_style( 'mimimi_admin_style', MIMIMI__PLUGIN_URL . '/admin.css', NULL, 1, 'all');
+		wp_register_style( 'mimimi_admin_style', GM__PLUGIN_URL . '/admin.css', NULL, 1, 'all');
 		wp_enqueue_style( 'mimimi_admin_style' );
 
 		wp_localize_script('mimimi_admin', 'fapsrv', array(
-			'choose_image'				=> __("Choose Image", MIMIMI__LANG),
-			'select_image'				=> __("Select Image", MIMIMI__LANG),
+			'choose_image'				=> __("Choose Image", GM__LANG),
+			'select_image'				=> __("Select Image", GM__LANG),
 		));
 	}
 
@@ -109,7 +111,7 @@ class GOODMORNING_ADMIN extends GOODMORNING_CORE {
 
 		add_meta_box(
 			'subheadline',										// Unique ID
-			__( 'Subheadline', MIMIMI__LANG ), 					// Title
+			__( 'Subheadline', GM__LANG ), 					// Title
 			array( $meta_box_templates, 'subheadline' ),		// Callback function
 			'br24_news',										// Admin page (or post type)
 			'normal',											// Context
@@ -119,7 +121,7 @@ class GOODMORNING_ADMIN extends GOODMORNING_CORE {
 
 		add_meta_box(
 			'video_meta',										// Unique ID
-			__( 'Video', MIMIMI__LANG ), 					// Title
+			__( 'Video', GM__LANG ), 					// Title
 			array( $meta_box_templates, 'video_meta' ),		// Callback function
 			'br24_news',										// Admin page (or post type)
 			'side',											// Context
@@ -129,8 +131,18 @@ class GOODMORNING_ADMIN extends GOODMORNING_CORE {
 
 		add_meta_box(
 			'news_meta',										// Unique ID
-			__( 'News', MIMIMI__LANG ), 					// Title
+			__( 'News', GM__LANG ), 					// Title
 			array( $meta_box_templates, 'news_meta' ),		// Callback function
+			'br24_news',										// Admin page (or post type)
+			'side',											// Context
+			'default'											// Priority
+		);
+
+
+		add_meta_box(
+			'vote_box',										// Unique ID
+			__( 'Vote', GM__LANG ), 					// Title
+			array( $meta_box_templates, 'vote_box' ),		// Callback function
 			'br24_news',										// Admin page (or post type)
 			'side',											// Context
 			'default'											// Priority
@@ -169,7 +181,7 @@ class GOODMORNING_ADMIN extends GOODMORNING_CORE {
 	private function save_post_meta( $post_id, $post, $nonce_name, $post_value, $meta_key ) {
 
 		/* Verify the nonce before proceeding. */
-		if ( !isset( $_POST[$nonce_name] ) || !wp_verify_nonce( $_POST[$nonce_name], basename( MIMIMI__PLUGIN_DIR ) ) )
+		if ( !isset( $_POST[$nonce_name] ) || !wp_verify_nonce( $_POST[$nonce_name], basename( GM__PLUGIN_DIR ) ) )
 			return $post_id;
 
 		/* Get the post type object. */
