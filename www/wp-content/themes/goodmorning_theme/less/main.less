@@ -19,7 +19,7 @@ body, html {
 	.fontSizeGrid(4);
 	cursor: pointer;
 	opacity: 1;
-	transition: .5  opacity ease;
+	transition: .5s opacity ease;
 
 	a {
 		color: #aaa;
@@ -29,6 +29,16 @@ body, html {
 			color: #fff;
 		}
 	}
+}
+
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 3px;
+	background: #ff7d00;
+	box-shadow: 0 0 15px #ff7d00;
+	transition: width .5s ease;
 }
 
 .footer {
@@ -85,6 +95,7 @@ body.loading {
 
 	.next-button, .prev-button {
 		opacity: 0;
+		transition: .5s opacity ease;
 	}
 }
 

@@ -7,13 +7,14 @@ ul.cards {
 	list-style: inside none;
 	width: 640px;
 	max-width: 100%;
+	height: auto;
 }
 
 li.card {
+	flex: 0 0 auto;
 	display: none;
 	position: relative;
 	width: 100%;
-	min-height: 350px;
 	background: #111;
 	box-shadow: 0 0 55px #111;
 	margin: 0;
@@ -31,6 +32,16 @@ li.card {
 			display: block;
 			content: "";
 			padding-bottom: 56.25%;
+		}
+
+		video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			display: none;
 		}
 	}
 
@@ -60,11 +71,15 @@ h1.welcome-text {
 
 h2.goodbye-text {
 	position: absolute;
-	top: 30px;
-	left: 30px;
-	right: 30px;
+	top: 0;
+	left: 0;
+	right: 0;
 	text-align: right;
 	margin: 0;
+	font-weight: 300;
+	padding: 30px;
+	text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, .4));
 }
 
 li.article {
@@ -141,6 +156,12 @@ li.article {
 				transform: rotate(-180deg);
 			}
 		}
+
+		header {
+			video {
+				display: block;
+			}
+		}
 	}
 
 	&.upvoted {
@@ -152,6 +173,28 @@ li.article {
 	&.downvoted {
 		a.downvote {
 			background: #660000;
+		}
+	}
+
+	&.video {
+		header {
+			&:before {
+				.fa();
+				content: @fa-var-play;
+				position: absolute;
+				top: 50%;
+				left: 0;
+				right: 0;
+				z-index: 1;
+				text-align: center;
+				font-size: 100px;
+				margin-top: -50px;
+				color: fadeOut(#000, 20%);
+			}
+
+			video {
+				z-index: 2;
+			}
 		}
 	}
 }

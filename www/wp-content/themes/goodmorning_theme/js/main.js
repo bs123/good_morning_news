@@ -3,7 +3,7 @@
 
 
 
-var postindex = -1;
+var duration = 0;
 var loadingState = false;
 
 
@@ -84,6 +84,16 @@ $(document).ready(function() {
 	$("ul.cards").on("click", "li.card a.more_content", function(e) {
 		var $card = $(e.currentTarget).parents("li.card");
 		$card.toggleClass("content_open");
+
+		if($card.hasClass("content_open") && $("video", $card).length > 0){
+			$('video', $card).each(function() {
+			    $(this).get(0).play();
+			});
+		} else if($("video", $card).length > 0) {
+			$('video', $card).each(function() {
+			    $(this).get(0).pause();
+			});
+		}
 	});
 
 
@@ -96,6 +106,16 @@ $(document).ready(function() {
 		if ($next.length > 0) {
 			$current.removeClass("show").removeClass("content_open");
 			$next.addClass("show");
+
+			$('video').each(function() {
+			    $(this).get(0).pause();
+			});
+
+			var newDuration = 0;
+			$next.prevAll("li.card").each(function(){
+				newDuration += parseInt($(this).attr("duration")) || 0;
+			});
+			$(".progress-bar").css("width", (newDuration/duration*100) + "%");
 		}
 	});
 
@@ -109,6 +129,16 @@ $(document).ready(function() {
 		if ($next.length > 0) {
 			$current.removeClass("show").removeClass("content_open");
 			$next.addClass("show");
+
+			$('video').each(function() {
+			    $(this).get(0).pause();
+			});
+
+			var newDuration = 0;
+			$next.prevAll("li.card").each(function(){
+				newDuration += parseInt($(this).attr("duration")) || 0;
+			});
+			$(".progress-bar").css("width", (newDuration/duration*100) + "%");
 		}
 	});
 
@@ -117,17 +147,28 @@ $(document).ready(function() {
 
 function insert_posts(posts) {
 	//  console.log('+++++++++' + typeof (posts));
-	var duration = 0;
 	if (typeof(posts) == "object") {
 		for (var i in posts) {
 			var post = posts[i];
 			console.log(post);
 			duration = duration + post.consume_dur;
-			var $post = $("<li>").attr("id", "post-" + i).addClass("article card").attr("postid", post.id);
+			var $post = $("<li>").attr("id", "post-" + i).addClass("article card").attr("postid", post.id).attr("duration", post.consume_dur);
 			// Construct the post header
 			$subheadline = $("<span>").addClass("small").html(post.headline);
 			$headline = $("<h1>").html(post.title).prepend($subheadline);
-			$header = $("<header>").addClass("article-header").append($headline).css("background-image", "url(" + post.thumbnail + ")");
+			$header = $("<header>").addClass("article-header").append($headline);
+			if(post.thumbnail != "" && post.thumbnail != null){
+				$header.css("background-image", "url(" + post.thumbnail + ")");
+			}
+
+			$video = null;
+			if(post.video.video_src != null){
+				$src = $("<source>").attr("src", post.video.video_src).attr("type", "video/mp4");
+				$video = $("<video>").append($src).attr("controls", true).addClass("video-js");
+				$header.append($video);
+				$post.addClass("video");
+			}
+
 			$post.append($header);
 			// Construct the button bar
 			$downvote_link = $("<a>").attr("href", "#downvote").addClass("downvote fa fa-thumbs-o-down").attr("id", "b_rate_down");
@@ -140,7 +181,8 @@ function insert_posts(posts) {
 			var $content = $("<div>").addClass("content clearfix").html(post.content).prepend($datetime);
 			$post.append($content);
 			$("#master-list").append($post);
-			if (duration >= 1000) break;
+
+			if (duration >= 600) break;
 		}
 		console.log("duration : " + duration);
 	}

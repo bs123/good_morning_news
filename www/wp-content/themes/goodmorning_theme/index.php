@@ -8,7 +8,7 @@
 	}
 
 	get_header(); ?>
-
+<div class="progress-bar" style="width: 0%;"></div>
 <div class="loading-indicator"></div>
 <div class="page-wrapper">
 	<div class="prev-button" id="b_prev">
@@ -23,9 +23,11 @@
 	    	</header>
 	    </li>
 	    <li class="goodbye-card card">
-	    	<h2 class="goodbye-text">
-		    	Wir wünschen dir<br /> einen schönen Tag!
-	    	</h2>
+		    <header style="background-image: url(<?php echo WP_THEME_URL; ?>/img/tag.jpg)">
+		    	<h2 class="goodbye-text">
+			    	Wir wünschen dir<br /> einen schönen Tag!
+		    	</h2>
+		    </header>
 	    </li>
 	</ul>
 	<div class="next-button" id="b_next">
