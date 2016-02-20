@@ -85,7 +85,7 @@ class GOODMORNING_REST {
 				$query->the_post();
 
 				$post_data = array(
-					"id"			=> get_the_IDU(),
+					"id"			=> get_the_ID(),
 					"title"			=> get_the_title(),
 					"headline"		=> get_post_meta(get_the_ID(), "_subheadline", true),
 					"datetime"		=> get_the_date("U", get_the_ID()),
