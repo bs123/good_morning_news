@@ -34,8 +34,8 @@ class GOODMORNING_CRAWLER {
 	 */
 	public function action_dispatcher(){
 
-		add_action('gm_crawl_api', 	array($this, 'do_crawl'));
-		add_action('gm_crawl_api_legacy', 	array($this, 'do_legacy_crawl'));
+		add_action('gm_crawl_api', 			array($this, 'do_crawl'));
+		//add_action('gm_crawl_api_legacy', 	array($this, 'do_legacy_crawl'));
 	}
 
 	// Custom Cron Recurrences
