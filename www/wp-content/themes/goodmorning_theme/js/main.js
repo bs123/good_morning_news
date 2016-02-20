@@ -12,16 +12,6 @@ $(document).ready(function () {
     }).done(function (response) {
         // console.log(response);
         insert_posts(response);
-
-        $(".article").click(function () {
-            var $this = $(this);
-            console.log($this);
-            // var $article = $this.parents("li.article");
-            var $content = $(".content", $this);
-            //   $content.removeClass("panel").addClass("headline").slideDown(constants.SLIDE_DOWN);
-          //  console.log($content);
-            $content.removeClass("hidden").addClass("shown");
-        });
     });
 });
 
@@ -32,9 +22,9 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $("#b_rate_up").click(function () {
-        $postId = $(".card.show").attr("postId");
-        console.log( $postId );
+    $("ul.cards").on("click", "li.card a.upvote", function (e) {
+        var $card = $(e.currentTarget).parents("li.card");
+        var $postId = $card.attr("postid");
         $.ajax({
             url: WP_API_Settings.root + 'goodmorning-news/1.0/upvote/' + $postId,
             method: 'GET',
@@ -42,14 +32,13 @@ $(document).ready(function () {
                 xhr.setRequestHeader('X-WP-Nonce', WP_API_Settings.nonce);
             },
         }).done(function (response) {
-            console.log(response);
-            //  console.log($(".article"));
+            $card.addClass("downvoted").removeClass("upvoted");
         });
     });
 
-    $("#b_rate_down").click(function () {
-        $postId = $(".card.show").attr("postid");
-        console.log( $postId );
+    $("ul.cards").on("click", "li.card a.downvote", function (e) {
+        var $card = $(e.currentTarget).parents("li.card");
+        var $postId = $card.attr("postid");
         $.ajax({
             url: WP_API_Settings.root + 'goodmorning-news/1.0/downvote/' + $postId,
             method: 'GET',
@@ -57,9 +46,13 @@ $(document).ready(function () {
                 xhr.setRequestHeader('X-WP-Nonce', WP_API_Settings.nonce);
             },
         }).done(function (response) {
-            console.log(response);
-            //  console.log($(".article"));
+            $card.addClass("downvoted").removeClass("upvoted");
         });
+    });
+
+    $("ul.cards").on("click", "li.card a.more_content", function(e){
+	   var $card = $(e.currentTarget).parents("li.card");
+	   $card.toggleClass("content_open");
     });
 });
 
@@ -70,7 +63,7 @@ $(document).ready(function () {
 	   var $next = $current.next("li.card");
 
 	   if($next.length > 0){
-	   	$current.removeClass("show");
+	   	$current.removeClass("show").removeClass("content_open");
 	   	$next.addClass("show");
 	   }
     });
@@ -80,7 +73,7 @@ $(document).ready(function () {
 	   var $next = $current.prev("li.card");
 
 	   if($next.length > 0){
-	   	$current.removeClass("show");
+	   	$current.removeClass("show").removeClass("content_open");
 	   	$next.addClass("show");
 	   }
     });
@@ -95,7 +88,7 @@ function insert_posts(posts) {
             var post = posts[i];
             console.log(post);
             duration = duration + post.consume_dur;
-            var $post = $("<li>").attr("id", "post-" + i).addClass("article card contentHidden").attr("postid", post.id);
+            var $post = $("<li>").attr("id", "post-" + i).addClass("article card").attr("postid", post.id);
 
             // Construct the post header
             $subheadline = $("<span>").addClass("small").html(post.headline);
@@ -104,8 +97,8 @@ function insert_posts(posts) {
 			$post.append($header);
 
 			// Construct the button bar
-			$downvote_link = $("<a>").attr("href", "#downvote").addClass("downvote fa fa-thumbs-o-down");
-			$upvote_link = $("<a>").attr("href", "#upvote").addClass("upvote fa fa-thumbs-o-up");
+			$downvote_link = $("<a>").attr("href", "#downvote").addClass("downvote fa fa-thumbs-o-down").attr("id", "b_rate_down");
+			$upvote_link = $("<a>").attr("href", "#upvote").addClass("upvote fa fa-thumbs-o-up").attr("id", "b_rate_up");
 			$more_link = $("<a>").attr("href", "#upvote").addClass("more_content fa fa-angle-down");
 			$buttons = $("<div>").addClass("buttons").append($downvote_link).append($more_link).append($upvote_link);
 
@@ -113,7 +106,7 @@ function insert_posts(posts) {
 
 			// Construct the Content
 			var $datetime = $("<div>").addClass("datetime").html(post.date);
-			var $content = $("<div>").addClass("hidden content clearfix").html(post.content).prepend($datetime);
+			var $content = $("<div>").addClass("content clearfix").html(post.content).prepend($datetime);
 
             $post.append($content);
 

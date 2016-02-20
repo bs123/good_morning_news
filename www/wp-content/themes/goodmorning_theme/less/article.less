@@ -75,9 +75,12 @@ li.article {
 	}
 
 	.content {
-		padding: 15px 30px;
+		padding: 0 30px;
 		background: #fff;
 		color: #666;
+		max-height: 0;
+
+		overflow: hidden;
 	}
 
 	.buttons {
@@ -103,5 +106,13 @@ li.article {
 		font-weight: 300;
 		.verticalRhythm(-2);
 		margin-bottom: @line-height-target * 0.5;
+	}
+
+	&.content_open {
+		.content {
+			max-height: 99999px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
 	}
 }
