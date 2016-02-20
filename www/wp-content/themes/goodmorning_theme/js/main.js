@@ -28,15 +28,13 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#liveReload").click(function () {
         $("#liveReload").fadeOut();
-        //$("#liveReload").fadeOut("slow");
-        //$("#liveReload").fadeOut(constants.FADE_OUT);
     });
 });
 
 $(document).ready(function () {
     $("#b_rate_up").click(function () {
-        $postId = $(".article.shown").attr("postId");
-       // console.log( $postId );
+        $postId = $(".card.show").attr("postId");
+        console.log( $postId );
         $.ajax({
             url: WP_API_Settings.root + 'goodmorning-news/1.0/upvote/' + $postId,
             method: 'GET',
@@ -50,7 +48,7 @@ $(document).ready(function () {
     });
 
     $("#b_rate_down").click(function () {
-        $postId = $(".article.shown").attr("postId");
+        $postId = $(".card.show").attr("postid");
         console.log( $postId );
         $.ajax({
             url: WP_API_Settings.root + 'goodmorning-news/1.0/downvote/' + $postId,
@@ -97,7 +95,7 @@ function insert_posts(posts) {
             var post = posts[i];
             console.log(post);
             duration = duration + post.consume_dur;
-            var $post = $("<li>").attr("id", "post-" + i).addClass("article card");
+            var $post = $("<li>").attr("id", "post-" + i).addClass("article card contentHidden").attr("postid", post.id);
 
             // Construct the post header
             $subheadline = $("<span>").addClass("small").text(post.headline);
@@ -105,8 +103,7 @@ function insert_posts(posts) {
             $header = $("<header>").addClass("article-header").append($headline).css("background-image", "url("+post.thumbnail+")");
 			$post.append($header);
 
-            $post.append($("<div>").addClass("hidden content clearfix").html(post.content));
-
+            $post.append($("<div>").addClass("content clearfix hidden").html(post.content));
 
             $("#master-list").append($post);
             if (duration >= 1000)
