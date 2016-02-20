@@ -17,7 +17,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#liveReload").click(function () {
         //$(this).hide();
-         $("#liveReload").fadeOut();
+        $("#liveReload").fadeOut();
         //$("#liveReload").fadeOut("slow");
         //$("#liveReload").fadeOut(constants.FADE_OUT);
     });
@@ -26,9 +26,9 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(".article").click(function () {
         var $this = $(this);
-        var $article = $this.parents("li.article");
-        var $content = $(".content", $article);
-     //   $content.removeClass("panel").addClass("headline").slideDown(constants.SLIDE_DOWN);
+        // var $article = $this.parents("li.article");
+        var $content = $(".content", $this);
+        //   $content.removeClass("panel").addClass("headline").slideDown(constants.SLIDE_DOWN);
         console.log($content)
         $content.removeClass("hidden").addClass("shown");
     });
@@ -54,8 +54,6 @@ function insert_posts(posts) {
             var $post = $("<li>").attr("id", "post-" + i).addClass("hidden article");
             $post.append($("<div>").addClass("headline").text(post.title));
             $post.append($("<div>").addClass("hidden content").text(post.content));
-//        <div id="headline">Trump ist Moslem.</div>
-            //          <div id="panel">lorem Ispum</div>
 
             $("#master-list").append($post);
             if (duration >= constants.MAX_DURATION)
