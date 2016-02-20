@@ -1,5 +1,5 @@
 //@depend "plugins.js"
-//@depend "constants.js"
+//@dependx "constants.js"
 
 $(document).ready(function () {
     //   $.get("http://goodmorning.devserv.de/wp-json/goodmorning-news/1.0/list-news", function (data, status) {
@@ -37,14 +37,25 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    var postindex = 0;
-    $("#b_next").click(function () {
-        $("#post-" + (postindex-1)).addClass("hidden").removeClass("shown");
-        $("#post-" + postindex).removeClass("hidden").addClass("shown");
-        // $("#post-1").toggle();
-        postindex ++;
-        console.log($(".article"));
 
+    $("#b_next").click(function(){
+	   var $current = $("ul.cards li.card.show");
+	   var $next = $current.next("li.card");
+
+	   if($next.length > 0){
+	   	$current.removeClass("show");
+	   	$next.addClass("show");
+	   }
+    });
+
+     $("#b_prev").click(function(){
+	   var $current = $("ul.cards li.card.show");
+	   var $next = $current.prev("li.card");
+
+	   if($next.length > 0){
+	   	$current.removeClass("show");
+	   	$next.addClass("show");
+	   }
     });
 });
 
@@ -57,14 +68,24 @@ function insert_posts(posts) {
             var post = posts[i];
             console.log(post);
             duration = duration + post.consume_dur;
-            var $post = $("<li>").attr("id", "post-" + i).addClass("hidden article");
-            $post.append($("<div>").addClass("headline").text(post.title));
-            $post.append($("<div>").addClass("hidden content").text(post.content));
+            var $post = $("<li>").attr("id", "post-" + i).addClass("article card");
+
+            // Construct the post header
+            $subheadline = $("<span>").addClass("small").text(post.headline);
+            $headline = $("<h1>").text(post.title).prepend($subheadline);
+            $header = $("<header>").addClass("article-header").append($headline).css("background-image", "url("+post.thumbnail+")");
+			$post.append($header);
+
+            $post.append($("<div>").addClass("hidden content clearfix").html(post.content));
 
             $("#master-list").append($post);
-            if (duration >= constants.MAX_DURATION)
+            if (duration >= 1000)
                 break;
         }
         console.log("duration : " + duration);
     }
+
+    var $goodbyeCard = $("li.card.goodbye-card");
+    $goodbyeCard.remove();
+    $("ul.cards").append($goodbyeCard);
 }

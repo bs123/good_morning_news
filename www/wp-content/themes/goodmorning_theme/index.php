@@ -3,6 +3,9 @@
 
 	get_header(); ?>
 
+<div class="prev-button" id="b_prev">
+	<a href="#prev" class="fa fa-angle-left"></a>
+</div>
 <ul id="master-list" class="cards">
     <li class="welcome-card card show">
     	<h1 class="welcome-text">Guten Morgen, <br />
@@ -14,6 +17,9 @@
     	</h2>
     </li>
 </ul>
+<div class="next-button" id="b_next">
+	<a href="#next" class="fa fa-angle-right"></a>
+</div>
 
 <div class="buttons">
 

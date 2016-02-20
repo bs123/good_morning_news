@@ -19,7 +19,7 @@ li.card {
 	margin: 0;
 	border: 1px solid #1f1f1f;
 
-	&.show:first-child {
+	&.show {
 		display: block;
 	}
 }
@@ -39,4 +39,44 @@ h2.goodbye-text {
 	right: 15px;
 	text-align: right;
 	margin: 0;
+}
+
+li.article {
+	margin: 35px 0;
+	header {
+		position: relative;
+		background-size: cover;
+
+		&:after {
+			display: block;
+			content: "";
+			padding-bottom: 56.25%;
+		}
+	}
+
+
+	h1 {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		.verticalRhythm(1);
+		padding: 75px 15px 15px;
+		font-weight: 600;
+		margin: 0;
+		background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, .8));
+		text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+
+		.small {
+			font-weight: 300;
+			display: block;
+			.verticalRhythm(1);
+		}
+	}
+
+	.content {
+		padding: 15px;
+		background: #fff;
+		color: #666;
+	}
 }

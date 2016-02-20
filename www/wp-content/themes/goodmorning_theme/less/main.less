@@ -8,7 +8,24 @@ body, html {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
 
+.next-button, .prev-button {
+	display: flex;
+	align-self: stretch;
+	align-items: center;
+	padding: 15px;
+	.fontSizeGrid(4);
+	cursor: pointer;
+
+	a {
+		color: #aaa;
+		transition: .5s color ease;
+
+		&:hover {
+			color: #fff;
+		}
+	}
 }
 
 button {
