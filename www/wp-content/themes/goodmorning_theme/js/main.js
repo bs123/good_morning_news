@@ -19,7 +19,7 @@ $(document).ready(function () {
             // var $article = $this.parents("li.article");
             var $content = $(".content", $this);
             //   $content.removeClass("panel").addClass("headline").slideDown(constants.SLIDE_DOWN);
-            console.log($content);
+          //  console.log($content);
             $content.removeClass("hidden").addClass("shown");
         });
     });
@@ -36,9 +36,24 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#b_rate_up").click(function () {
         $postId = $(".article.shown").attr("postId");
-        console.log( $postId );
+       // console.log( $postId );
         $.ajax({
             url: WP_API_Settings.root + 'goodmorning-news/1.0/upvote/' + $postId,
+            method: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-WP-Nonce', WP_API_Settings.nonce);
+            },
+        }).done(function (response) {
+            console.log(response);
+            //  console.log($(".article"));
+        });
+    });
+
+    $("#b_rate_down").click(function () {
+        $postId = $(".article.shown").attr("postId");
+        console.log( $postId );
+        $.ajax({
+            url: WP_API_Settings.root + 'goodmorning-news/1.0/downvote/' + $postId,
             method: 'GET',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-WP-Nonce', WP_API_Settings.nonce);
@@ -52,14 +67,20 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#b_next").click(function () {
-        $("#post-" + (postindex)).addClass("hidden").removeClass("shown");
+        var $curPost = $("#post-" + (postindex));
+        $curPost.addClass("hidden").removeClass("shown");
+        //hide content
+        $(".content", $curPost).addClass("hidden").removeClass("shown");
         postindex++;
         $("#post-" + postindex).removeClass("hidden").addClass("shown");
         //console.log($(".article"));
     });
 
     $("#b_last").click(function () {
-        $("#post-" + (postindex)).addClass("hidden").removeClass("shown");
+        var $curPost = $("#post-" + (postindex));
+        $curPost.addClass("hidden").removeClass("shown");
+        //hide content
+        $(".content", $curPost).addClass("hidden").removeClass("shown");
         postindex--;
         $("#post-" + postindex).removeClass("hidden").addClass("shown");
         //console.log($(".article"));
