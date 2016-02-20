@@ -114,12 +114,13 @@ class GOODMORNING_CORE {
 	public function onInstall(){
 		if ( ! wp_next_scheduled( 'gm_crawl_api' ) ) {
 		  wp_schedule_event( time(), 'minute', 'gm_crawl_api' );
-		  wp_schedule_event( time(), 'minute', 'gm_crawl_api_legacy' );
+		  wp_schedule_event( time(), 'fiveminutes', 'gm_crawl_api_legacy' );
 		}
 	}
 
 	public function onUninstall(){
 		wp_clear_scheduled_hook('gm_crawl_api');
+		wp_clear_scheduled_hook('gm_crawl_api_legacy');
 		delete_option('br24_offset');
 	}
 

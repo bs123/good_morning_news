@@ -27,6 +27,7 @@ require_once( GM__PLUGIN_DIR . "/inc/goodmorning.core.php" ); // The core class 
 require_once( GM__PLUGIN_DIR . "/inc/goodmorning.admin.php" ); // The core class of the plugin
 require_once( GM__PLUGIN_DIR . "/inc/goodmorning.metaboxes.php" ); // The core class of the plugin
 require_once( GM__PLUGIN_DIR . "/inc/goodmorning.crawler.php" ); // The core class of the plugin
+require_once( GM__PLUGIN_DIR . "/inc/goodmorning.rest.php" ); // The core class of the plugin
 
 if(is_admin()){
 	$goodmorning_plugin = new GOODMORNING_ADMIN();
@@ -34,7 +35,8 @@ if(is_admin()){
 	$goodmorning_plugin = new GOODMORNING_CORE();
 }
 
-$crawler = new GOODMORNING_CRAWLER();
+$morning_crawler = new GOODMORNING_CRAWLER();
+$morning_rest = new GOODMORNING_REST();
 
 // The activation hook
 register_activation_hook( __FILE__, array($goodmorning_plugin, "onInstall") );

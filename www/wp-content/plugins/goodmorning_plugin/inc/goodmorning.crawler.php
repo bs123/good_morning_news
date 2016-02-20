@@ -165,7 +165,7 @@ class GOODMORNING_CRAWLER {
 				"post_type"		=> "br24_news",
 				"post_title"	=> $d['title'],
 				'post_status'	=> 'publish',
-				"post_content"	=> preg_replace( "/\r|\n/", "", "<p>" . $d['teaserText'] . "<p>" . $d['text']),
+				"post_content"	=> preg_replace( "/\r|\n/", "", "<p>" . $d['teaserText'] . "</p>" . $d['text']),
 				"post_date_gmt"	=> date("Y-m-d H:i:s", strtotime($d['publicationDate'])),
 			);
 
@@ -213,7 +213,7 @@ class GOODMORNING_CRAWLER {
 
 		// Set variables for storage
 		// fix file filename for query strings
-		preg_match('/[^\?]+\.(jpg|jpe|jpeg|gif|png)/i', $url, $matches);
+		preg_match('/[^\?]+\.(jpg|jpeg|gif|png)/i', $url, $matches);
 		$file_array['name'] = basename($matches[0]);
 		$file_array['tmp_name'] = $tmp;
 
