@@ -34,9 +34,11 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $("#rate_up").click(function () {
+    $("#b_rate_up").click(function () {
+        $postId = $(".article.shown").attr("postId");
+        console.log( $postId );
         $.ajax({
-            url: WP_API_Settings.root + 'goodmorning-news/1.0/upvote/7970',
+            url: WP_API_Settings.root + 'goodmorning-news/1.0/upvote/' + $postId,
             method: 'GET',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-WP-Nonce', WP_API_Settings.nonce);
@@ -73,7 +75,7 @@ function insert_posts(posts) {
             var post = posts[i];
             console.log(post);
             duration = duration + post.consume_dur;
-            var $post = $("<li>").attr("id", "post-" + i).addClass("hidden article");
+            var $post = $("<li>").attr("id", "post-" + i).addClass("hidden article").attr("postId", post.id);
             $post.append($("<div>").addClass("headline").text(post.title));
             $post.append($("<div>").addClass("hidden content").text(post.content));
 
