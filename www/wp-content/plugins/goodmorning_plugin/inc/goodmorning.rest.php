@@ -108,6 +108,7 @@ class GOODMORNING_REST {
 			"id"			=> get_the_ID(),
 			"title"			=> get_the_title(),
 			"headline"		=> get_post_meta(get_the_ID(), "_subheadline", true),
+			"date"			=> get_the_date("d.m.Y H:i \U\h\\r", get_the_ID()),
 			"datetime"		=> get_the_date("U", get_the_ID()),
 			"content"		=> apply_filters("the_content", get_the_content()),
 			"consume_dur"	=> intval(get_post_meta(get_the_ID(), "_consume_duration", true)),

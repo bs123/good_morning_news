@@ -75,8 +75,33 @@ li.article {
 	}
 
 	.content {
-		padding: 15px;
+		padding: 15px 30px;
 		background: #fff;
 		color: #666;
+	}
+
+	.buttons {
+		background: #666;
+		display: flex;
+
+		a {
+			padding: 10px 0;
+			display: block;
+			color: #fff;
+			width: 25%;
+			text-align: center;
+
+			&.more_content {
+				width: 50%;
+				background: #444;
+			}
+		}
+
+	}
+
+	.datetime {
+		font-weight: 300;
+		.verticalRhythm(-2);
+		margin-bottom: @line-height-target * 0.5;
 	}
 }

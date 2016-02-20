@@ -21,13 +21,4 @@
 	<a href="#next" class="fa fa-angle-right"></a>
 </div>
 
-<div class="buttons">
-
-<button id="b_next">next</button>
-<button id="b_last">last</button>
-
-<button id="b_rate_down">rate_down</button>
-<button id="b_rate_up">rate_up</button>
-</div>
-
 <?php get_footer(); ?>

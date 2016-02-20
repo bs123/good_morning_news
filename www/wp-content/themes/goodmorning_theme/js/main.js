@@ -100,12 +100,24 @@ function insert_posts(posts) {
             var $post = $("<li>").attr("id", "post-" + i).addClass("article card");
 
             // Construct the post header
-            $subheadline = $("<span>").addClass("small").text(post.headline);
-            $headline = $("<h1>").text(post.title).prepend($subheadline);
+            $subheadline = $("<span>").addClass("small").html(post.headline);
+            $headline = $("<h1>").html(post.title).prepend($subheadline);
             $header = $("<header>").addClass("article-header").append($headline).css("background-image", "url("+post.thumbnail+")");
 			$post.append($header);
 
-            $post.append($("<div>").addClass("hidden content clearfix").html(post.content));
+			// Construct the button bar
+			$downvote_link = $("<a>").attr("href", "#downvote").addClass("downvote fa fa-thumbs-o-down");
+			$upvote_link = $("<a>").attr("href", "#upvote").addClass("upvote fa fa-thumbs-o-up");
+			$more_link = $("<a>").attr("href", "#upvote").addClass("more_content fa fa-angle-down");
+			$buttons = $("<div>").addClass("buttons").append($downvote_link).append($more_link).append($upvote_link);
+
+			$post.append($buttons);
+
+			// Construct the Content
+			var $datetime = $("<div>").addClass("datetime").html(post.date);
+			var $content = $("<div>").addClass("hidden content clearfix").html(post.content).prepend($datetime);
+
+            $post.append($content);
 
 
             $("#master-list").append($post);
