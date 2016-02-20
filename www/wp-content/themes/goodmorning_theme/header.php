@@ -7,12 +7,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title><?php wp_title(); ?></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript">
-    	// Check if JavaScript is available
-	    document.documentElement.className =
-	       document.documentElement.className.replace("no-js","js");
-	</script>
+        <script type="text/javascript">
+            // Check if JavaScript is available
+            document.documentElement.className =
+               document.documentElement.className.replace("no-js","js");
+
+
+        </script>
 
     <?php wp_head(); ?>
 
