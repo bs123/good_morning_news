@@ -129,14 +129,36 @@ class GOODMORNING_REST {
 	 * @return void
 	 */
 	public function upvote($request){
-		global $current_user;
+		if(is_user_logged_in()){
+			$params = $request->get_params();
+			$post_id = $params['id'];
 
-		$params = $request->get_params();
-		$post_id = $params['id'];
-
-		$tags = get_the_tags($post_id);
-
-		return $current_user;
+			$tags = get_the_tags($post_id);
+			return $tags;
+		} else {
+			return false;
+		}
 	}
+
+	/**
+	 * upvote function.
+	 *
+	 * @access public
+	 * @param mixed $request
+	 * @return void
+	 */
+	public function downvote($request){
+		if(is_user_logged_in()){
+			$params = $request->get_params();
+			$post_id = $params['id'];
+
+			$tags = get_the_tags($post_id);
+
+			return $tags;
+		} else {
+			return false;
+		}
+	}
+
 
 }

@@ -40,6 +40,8 @@ function lh_enqueue_scripts(){
 	wp_register_script('main', (WP_JS_URL . "/main.min.js"), array("jquery"), '1', true);
 
 	wp_enqueue_script('main');
+	wp_localize_script( 'main', 'WP_API_Settings', array( 'root' => esc_url_raw( rest_url() ), 'nonce' => wp_create_nonce( 'wp_rest' ) ) );
+
 }
 add_action("wp_enqueue_scripts", "lh_enqueue_scripts");
 
