@@ -30,5 +30,4 @@
 <button id="b_rate_up">rate_up</button>
 </div>
 
-
 <?php get_footer(); ?>
