@@ -13,5 +13,4 @@
 <button id="b_rate_down">rate_down</button>
 <button id="b_rate_up">rate_up</button>
 
-
 <?php get_footer(); ?>

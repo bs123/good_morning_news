@@ -1,6 +1,8 @@
 //@depend "plugins.js"
 //@depend "constants.js"
 
+var postindex = -1;
+
 $(document).ready(function () {
     //   $.get("http://goodmorning.devserv.de/wp-json/goodmorning-news/1.0/list-news", function (data, status) {
     $.ajax({
@@ -26,7 +28,6 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#liveReload").click(function () {
-        //$(this).hide();
         $("#liveReload").fadeOut();
         //$("#liveReload").fadeOut("slow");
         //$("#liveReload").fadeOut(constants.FADE_OUT);
@@ -37,14 +38,20 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    var postindex = 0;
     $("#b_next").click(function () {
-        $("#post-" + (postindex-1)).addClass("hidden").removeClass("shown");
+        $("#post-" + (postindex)).addClass("hidden").removeClass("shown");
+        postindex++;
         $("#post-" + postindex).removeClass("hidden").addClass("shown");
         // $("#post-1").toggle();
-        postindex ++;
         console.log($(".article"));
+    });
 
+    $("#b_last").click(function () {
+        $("#post-" + (postindex)).addClass("hidden").removeClass("shown");
+        // $("#post-1").toggle();
+        postindex--;
+        $("#post-" + postindex).removeClass("hidden").addClass("shown");
+        console.log($(".article"));
     });
 });
 
