@@ -43,6 +43,14 @@ function lh_enqueue_scripts(){
 }
 add_action("wp_enqueue_scripts", "lh_enqueue_scripts");
 
+
+function lh_theme_image(){
+	add_theme_support( 'post-thumbnails' );
+	set_post_thumbnail_size( 800, 450, true );
+}
+add_action("init", "lh_theme_image");
+
+
 /**
  * Add language support
  * Called by action "after_setup_theme"
