@@ -6,6 +6,7 @@
 
 class GOODMORNING_REST {
 	private $namespace = 'goodmorning-news/1.0';
+	private $matches = array();
 
 	/**
 	 * __construct function.
@@ -66,6 +67,14 @@ class GOODMORNING_REST {
 			}
 		) );
 
+		register_rest_route( $this->namespace, '/read/(?P<id>[\d]+)', array(
+			'methods'  => 'GET',
+			'callback' => array($this, 'read'),
+			'permission_callback' => function () {
+				return true;
+			}
+		) );
+
 	}
 
 	public function get_news(){
@@ -113,6 +122,7 @@ class GOODMORNING_REST {
 			"content"		=> apply_filters("the_content", get_the_content()),
 			"consume_dur"	=> intval(get_post_meta(get_the_ID(), "_consume_duration", true)),
 			"thumbnail"		=> NULL,
+			"match"			=> $this->matches[get_the_ID()],
 			"video"			=> array(
 				"video_src"	=> NULL,
 				"video_dur"	=> NULL,
@@ -163,12 +173,13 @@ class GOODMORNING_REST {
 		$post_ids = array();
 		foreach($results as $r){
 			$post_ids[] = $r->ID;
+			$this->matches[$r->ID] = $r->term_similarity;
 		}
 
 		$args = array(
 			"posts_per_page"	=> 20,
 			"post_type"			=> "br24_news",
-			"post__in"			=> $post_ids,
+			"post__in"			=> array_diff($post_ids, (array) get_user_meta(get_current_user_id(), "_br24_read", true))
 		);
 
 		$query = new WP_Query($args);
@@ -247,15 +258,33 @@ class GOODMORNING_REST {
 
 			// Add these IDs to the Negative list
 			$user_negative_topics = (array) get_user_meta(get_current_user_id(), "_br24_negative", true);
-			$new_negatvie_topics = array_unique(array_filter(array_merge($user_negative_topics, $tag_ids)));
+			$new_negatvie_topics = array_splice(array_unique(array_filter(array_merge($user_negative_topics, $tag_ids))), 0, 100);
 			update_user_meta(get_current_user_id(), "_br24_negative", $new_negatvie_topics);
 
 			// Remove these IDs from the positive list
 			$user_positive_topics = (array) get_user_meta(get_current_user_id(), "_br24_positive", true);
-			$new_positive_topics = array_unique(array_filter(array_diff($user_positive_topics, $tag_ids)));
+			$new_positive_topics = array_splice(array_unique(array_filter(array_diff($user_positive_topics, $tag_ids))), 0, 100);
 			update_user_meta(get_current_user_id(), "_br24_positive", $new_positive_topics);
 
 			return array($new_positive_topics, $new_negatvie_topics);
+		} else {
+			return false;
+		}
+	}
+
+
+	public function read($request){
+		if(is_user_logged_in()){
+			$params = $request->get_params();
+			$post_id = $params['id'];
+
+			$read_list = (array) get_user_meta(get_current_user_id(), "_br24_read", true);
+			$read_list[] = $params['id'];
+			$read_list = array_splice(array_unique(array_filter($read_list)), 0, 100);
+
+			update_user_meta(get_current_user_id(), "_br24_read", $read_list);
+
+			return $read_list;
 		} else {
 			return false;
 		}

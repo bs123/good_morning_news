@@ -64,6 +64,9 @@ $(document).ready(function() {
 	$("ul.cards").on("click", "li.card a.downvote", function(e) {
 		var $card = $(e.currentTarget).parents("li.card");
 		var $postId = $card.attr("postid");
+
+		set_read($card.attr("postid"));
+
 		setLoading(true);
 		$.ajax({
 			url: WP_API_Settings.root + 'goodmorning-news/1.0/downvote/' + $postId,
@@ -84,6 +87,8 @@ $(document).ready(function() {
 	$("ul.cards").on("click", "li.card a.more_content", function(e) {
 		var $card = $(e.currentTarget).parents("li.card");
 		$card.toggleClass("content_open");
+
+		set_read($card.attr("postid"));
 
 		if($card.hasClass("content_open") && $("video", $card).length > 0){
 			$('video', $card).each(function() {
@@ -144,6 +149,20 @@ $(document).ready(function() {
 
 
 });
+
+function set_read(post_id){
+	$.ajax({
+		url: WP_API_Settings.root + 'goodmorning-news/1.0/read/' + post_id,
+		method: 'GET',
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader('X-WP-Nonce', WP_API_Settings.nonce);
+		},
+	}).done(function(response) {
+		console.log("read successful");
+	}).error(function(response) {
+
+	});
+}
 
 function insert_posts(posts) {
 	//  console.log('+++++++++' + typeof (posts));
