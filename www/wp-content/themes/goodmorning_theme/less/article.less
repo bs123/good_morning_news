@@ -1,0 +1,42 @@
+ul.cards {
+	display: flex;
+	flex-flow: column wrap;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: inside none;
+	width: 640px;
+	max-width: 100%;
+}
+
+li.card {
+	display: none;
+	position: relative;
+	width: 100%;
+	min-height: 350px;
+	background: #111;
+	box-shadow: 0 0 55px #111;
+	margin: 0;
+	border: 1px solid #1f1f1f;
+
+	&.show:first-child {
+		display: block;
+	}
+}
+
+h1.welcome-text {
+	position: absolute;
+	bottom: 15px;
+	left: 15px;
+	right: 15px;
+	margin: 0;
+}
+
+h2.goodbye-text {
+	position: absolute;
+	top: 15px;
+	left: 40%;
+	right: 15px;
+	text-align: right;
+	margin: 0;
+}
