@@ -35,7 +35,7 @@ class GOODMORNING_CRAWLER {
 	public function action_dispatcher(){
 
 		add_action('gm_crawl_api', 			array($this, 'do_crawl'));
-		//add_action('gm_crawl_api_legacy', 	array($this, 'do_legacy_crawl'));
+		add_action('gm_crawl_api_legacy', 	array($this, 'do_legacy_crawl'));
 	}
 
 	// Custom Cron Recurrences
@@ -63,7 +63,7 @@ class GOODMORNING_CRAWLER {
 	public function do_crawl(){
 
 		if(!is_admin()){
-			$response = $this->get_api();
+			$response = $this->get_api(5);
 
 			if(is_array($response['data'])){
 				$this->insert_posts($response['data']);
@@ -81,7 +81,6 @@ class GOODMORNING_CRAWLER {
 				$this->insert_posts($response['data']);
 
 				update_option('br24_offset', end(array_values($response['data']))['publicationDate']);
-
 			}
 
 		}
@@ -127,34 +126,20 @@ class GOODMORNING_CRAWLER {
 			return false;
 		}
 
-		// Single out the data IDs from the API
-		$data_ids = array();
-		foreach($data as $d) {
-			$data_ids[] = $d['id'];
-		}
-
-		// Check if we have that in the database
-		$duplicate_query = new WP_Query(array(
-			'post_type'	=> 'br24_news',
-			'meta_query' => array(
-				array(
-					'key'     => '_br24_id',
-					'value'   => $data_ids,
-					'compare' => 'IN',
-				),
-			),
-		));
-
-		$data_ids_in_database = array();
-		if($duplicate_query->have_posts()){ while($duplicate_query->have_posts()){
-			$duplicate_query->the_post();
-
-			$data_ids_in_database[] = get_post_meta($post->ID, "_br24_id", true);
-		}}
-
 		foreach($data as $d){
 
-			if(in_array($d['id'], $data_ids_in_database)){
+			// Check if we have that in the database
+			$duplicate_query = new WP_Query(array(
+				'post_type'	=> 'br24_news',
+				'meta_query' => array(
+					array(
+						'key'     => '_br24_id',
+						'value'   => $d['id'],
+					),
+				),
+			));
+
+			if(!empty($duplicate_query->posts)){
 				continue;
 			}
 
@@ -164,7 +149,7 @@ class GOODMORNING_CRAWLER {
 			$post = array(
 				"post_type"		=> "br24_news",
 				"post_title"	=> $d['title'],
-				'post_status'	=> 'publish',
+				"post_status"	=> 'publish',
 				"post_content"	=> preg_replace( "/\r|\n/", "", "<p>" . $d['teaserText'] . "</p>" . $d['text']),
 				"post_date_gmt"	=> date("Y-m-d H:i:s", strtotime($d['publicationDate'])),
 			);

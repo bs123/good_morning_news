@@ -58,6 +58,14 @@ class GOODMORNING_REST {
 			}
 		) );
 
+		register_rest_route( $this->namespace, '/downvote/(?P<id>[\d]+)', array(
+			'methods'  => 'GET',
+			'callback' => array($this, 'downvote'),
+			'permission_callback' => function () {
+				return true;
+			}
+		) );
+
 	}
 
 	public function get_news(){
@@ -65,7 +73,7 @@ class GOODMORNING_REST {
 			// The user is not logged in
 			return $this->generic_news();
 		} else {
-			return $this->generic_news();
+			return $this->specialized_news();
 		}
 	}
 
@@ -84,33 +92,7 @@ class GOODMORNING_REST {
 			while($query->have_posts()){
 				$query->the_post();
 
-				$post_data = array(
-					"id"			=> get_the_ID(),
-					"title"			=> get_the_title(),
-					"headline"		=> get_post_meta(get_the_ID(), "_subheadline", true),
-					"datetime"		=> get_the_date("U", get_the_ID()),
-					"content"		=> apply_filters("the_content", get_the_content()),
-					"consume_dur"	=> intval(get_post_meta(get_the_ID(), "_consume_duration", true)),
-					"thumbnail"		=> NULL,
-					"video"			=> array(
-						"video_src"	=> NULL,
-						"video_dur"	=> NULL,
-					),
-				);
-
-				$thumb = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'post-thumbnail' );
-				if(is_array($thumb)){
-					$post_data['thumbnail']	= $thumb[0];
-				}
-
-				$video_data = (array) get_post_meta(get_the_id(), "_video_data", true);
-				if(isset($video_data['url']) && $video_data['url'] != ""){
-					$post_data['video']['video_src'] = $video_data['url'];
-					$post_data['video']['video_dur'] = $video_data['duration'];
-					// This is arbirary code for the photo. They will never know! MUHAHAHAHAH!
-				}
-
-				$return_array[] = $post_data;
+				$return_array[] = $this->format_post();
 			}
 
 			return $return_array;
@@ -119,6 +101,93 @@ class GOODMORNING_REST {
 			return false;
 		}
 
+	}
+
+	public function format_post(){
+		$post_data = array(
+			"id"			=> get_the_ID(),
+			"title"			=> get_the_title(),
+			"headline"		=> get_post_meta(get_the_ID(), "_subheadline", true),
+			"datetime"		=> get_the_date("U", get_the_ID()),
+			"content"		=> apply_filters("the_content", get_the_content()),
+			"consume_dur"	=> intval(get_post_meta(get_the_ID(), "_consume_duration", true)),
+			"thumbnail"		=> NULL,
+			"video"			=> array(
+				"video_src"	=> NULL,
+				"video_dur"	=> NULL,
+			),
+		);
+
+		$thumb = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'post-thumbnail' );
+		if(is_array($thumb)){
+			$post_data['thumbnail']	= $thumb[0];
+		}
+
+		$video_data = (array) get_post_meta(get_the_id(), "_video_data", true);
+		if(isset($video_data['url']) && $video_data['url'] != ""){
+			$post_data['video']['video_src'] = $video_data['url'];
+			$post_data['video']['video_dur'] = $video_data['duration'];
+			// This is arbirary code for the photo. They will never know! MUHAHAHAHAH!
+		}
+
+		return $post_data;
+	}
+
+	private function specialized_news(){
+		global $wpdb;
+		$user_positive_topics = (array) get_user_meta(get_current_user_id(), "_br24_positive", true);
+		$user_negative_topics = (array) get_user_meta(get_current_user_id(), "_br24_negative", true);
+
+		$pos_topics = implode(", ", $user_positive_topics);
+		$neg_topics = implode(", ", $user_negative_topics);
+		$date_offset = date("Y-m-d H:i:s", time() - 60 * 60 * 6);
+
+		$term_dist = "
+				SELECT p.ID, SUM(tr.term_taxonomy_id = tp.term_taxonomy_id) as term_similarity
+				FROM {$wpdb->prefix}posts as p
+					RIGHT JOIN {$wpdb->prefix}term_relationships as tr on tr.object_id = p.ID
+					RIGHT JOIN {$wpdb->prefix}term_relationships as tp on tp.term_taxonomy_id IN ($pos_topics)
+				WHERE p.post_type = 'br24_news' AND p.post_date > '$date_offset'
+				GROUP BY p.ID
+				ORDER BY term_similarity DESC
+				LIMIT 0, 100
+		";
+
+		$results = 	$wpdb->get_results($term_dist);
+
+		if(!is_array($results)){
+			return false;
+		}
+
+		$post_ids = array();
+		foreach($results as $r){
+			$post_ids[] = $r->ID;
+		}
+
+		$args = array(
+			"posts_per_page"	=> 20,
+			"post_type"			=> "br24_news",
+			"post__in"			=> $post_ids,
+		);
+
+		$query = new WP_Query($args);
+
+		$return_array = array();
+
+		if($query->have_posts()){
+			while($query->have_posts()){
+				$query->the_post();
+
+				$return_array[] = $this->format_post();
+			}
+
+			return $return_array;
+
+		} else {
+			return false;
+		}
+
+		return $results;
 	}
 
 	/**
@@ -134,7 +203,23 @@ class GOODMORNING_REST {
 			$post_id = $params['id'];
 
 			$tags = get_the_tags($post_id);
-			return $tags;
+
+			$tag_ids = array();
+			foreach($tags as $t){
+				$tag_ids[] = $t->term_id;
+			}
+
+			// Add these IDs to the positive list
+			$user_negative_topics = (array) get_user_meta(get_current_user_id(), "_br24_negative", true);
+			$new_negatvie_topics = array_splice(array_unique(array_filter(array_diff($user_negative_topics, $tag_ids))), 0, 100);
+			update_user_meta(get_current_user_id(), "_br24_negative", $new_negatvie_topics);
+
+			// Remove these IDs from the negative list
+			$user_positive_topics = (array) get_user_meta(get_current_user_id(), "_br24_positive", true);
+			$new_positive_topics = array_splice(array_unique(array_filter(array_merge($user_positive_topics, $tag_ids))), 0, 100);
+			update_user_meta(get_current_user_id(), "_br24_positive", $new_positive_topics);
+
+			return array($new_positive_topics, $new_negatvie_topics);
 		} else {
 			return false;
 		}
@@ -154,7 +239,22 @@ class GOODMORNING_REST {
 
 			$tags = get_the_tags($post_id);
 
-			return $tags;
+			$tag_ids = array();
+			foreach($tags as $t){
+				$tag_ids[] = $t->term_id;
+			}
+
+			// Add these IDs to the Negative list
+			$user_negative_topics = (array) get_user_meta(get_current_user_id(), "_br24_negative", true);
+			$new_negatvie_topics = array_unique(array_filter(array_merge($user_negative_topics, $tag_ids)));
+			update_user_meta(get_current_user_id(), "_br24_negative", $new_negatvie_topics);
+
+			// Remove these IDs from the positive list
+			$user_positive_topics = (array) get_user_meta(get_current_user_id(), "_br24_positive", true);
+			$new_positive_topics = array_unique(array_filter(array_diff($user_positive_topics, $tag_ids)));
+			update_user_meta(get_current_user_id(), "_br24_positive", $new_positive_topics);
+
+			return array($new_positive_topics, $new_negatvie_topics);
 		} else {
 			return false;
 		}

@@ -68,4 +68,13 @@ class GOODMORNING_Metaboxes {
 			</p>
 		<?php
 	}
+
+	public function vote_box($object, $box){
+		?>
+		<p>
+			<a href="#more" data-upvote-id="<?=$object->ID?>">More like this!</a>
+			<a href="#less" data-downvote-id="<?=$object->ID?>">Less like this!</a>
+		</p>
+		<?php
+	}
 }
