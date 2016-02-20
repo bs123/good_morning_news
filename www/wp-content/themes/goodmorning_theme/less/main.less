@@ -6,6 +6,7 @@ body, html {
 	color: #fff;
 	background: #000;
 	display: flex;
+	flex-flow: column wrap;
 	align-items: center;
 	justify-content: center;
 }
@@ -17,6 +18,8 @@ body, html {
 	padding: 15px;
 	.fontSizeGrid(4);
 	cursor: pointer;
+	opacity: 1;
+	transition: .5  opacity ease;
 
 	a {
 		color: #aaa;
@@ -25,6 +28,20 @@ body, html {
 		&:hover {
 			color: #fff;
 		}
+	}
+}
+
+.footer {
+	align-self: flex-end;
+	width: 640px;
+	max-width: 100%;
+	margin: 50px auto 25px;
+
+	h3, p {
+		.verticalRhythm(-2);
+		text-align: right;
+		color: #666;
+		margin-bottom: 0;
 	}
 }
 
@@ -38,6 +55,43 @@ button {
 	display: block;
 }
 
+.page-wrapper {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.loading-indicator {
+	position: fixed;
+	top: 30px;
+	right: 30px;
+	width: 30px;
+	height: 30px;
+
+	border-radius: 50%;
+	border: 5px solid rgba(255, 255, 255, 0.5);
+	border-right-color: transparent;
+
+	animation: rotate-forever 1s infinite linear;
+
+	opacity: 0;
+
+	transition: opacity .25s ease;
+}
+
+body.loading {
+	.loading-indicator {
+		opacity: 1;
+	}
+
+	.next-button, .prev-button {
+		opacity: 0;
+	}
+}
+
+@keyframes rotate-forever {
+  0%    { transform: rotate(0deg); }
+  100%  { transform: rotate(360deg); }
+}
 
 // Set the box sizing globally for all elements
 * {
