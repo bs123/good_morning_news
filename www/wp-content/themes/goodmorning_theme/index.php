@@ -34,8 +34,19 @@
 		<a href="#next" class="fa fa-angle-right"></a>
 	</div>
 </div>
+
+<?php
+
+	if(is_user_logged_in()){
+		$login = '<a href="'.wp_logout_url( home_url() ).'">Logout</a>';
+	} else {
+		$login = '<a href="'.wp_login_url( home_url() ).'">Login</a>';
+	}
+
+?>
+
 <div class="footer">
-	<h3>Guten Morgen, Nachrichten!</h3>
+	<h3>Guten Morgen, Nachrichten! | <?php echo $login; ?></h3>
 	<p>&copy; 2016 | von Flo, Jan & Hendrik für die #pulshackdays
 </div>
 
